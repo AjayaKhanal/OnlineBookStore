@@ -1,0 +1,55 @@
+﻿.modalheader {
+    background: #06F85C;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px 5px 0 0;
+}
+
+    .modalheader h2 {
+        margin: 0; /* Removing default margin */
+        font-size: 1.2rem; /* Better control over text size */
+        padding-left: 5px;
+        font-weight: bold;
+        word-wrap: break-word; /* Handle long titles gracefully */
+        flex-grow: 1; /* Ensure the title takes up available space */
+    }
+
+.modalheader h2,.close{
+    color: white;
+}
+
+.close {
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+    .close:hover {
+        transform: scale(1.2); /* Slightly enlarges on hover */
+        color: #ff4747; /* Change to a red color for hover */
+    }
+
+    .close:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px #ff4747; /* Visual cue for focus */
+    }
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+    .modalheader {
+        padding: 0 10px;
+    }
+
+        .modalheader h2 {
+            font-size: 1rem; /* Smaller font on mobile */
+        }
+
+    .close {
+        font-size: 1.2rem; /* Slightly smaller close button on mobile */
+    }
+}

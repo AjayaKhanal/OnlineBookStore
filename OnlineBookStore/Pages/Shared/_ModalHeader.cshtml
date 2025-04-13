@@ -1,0 +1,26 @@
+﻿<link rel="stylesheet" type="text/css" href="~/css/ModalDialog/modalheader.css"/>
+
+@* Modal Header *@
+<div class="modalheader" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
+	<h2 id="modalTitle">@ViewData["ModalTitle"]</h2>
+	<span class="close" tabindex="0" aria-label="Close">&times;</span>
+</div>
+
+@* <script> *@
+@*     // Focus management for the modal *@
+@*     const modal = document.querySelector('.modalheader'); *@
+@*     const closeButton = document.querySelector('.close'); *@
+
+@*     function openModal() { *@
+@*         modal.setAttribute('aria-hidden', 'false'); *@
+@*         closeButton.focus(); // Focus on close button when modal is opened *@
+@*     } *@
+
+@*     function closeModal() { *@
+@*         modal.setAttribute('aria-hidden', 'true'); *@
+@*         // Optionally, set focus back to a previous element (like a button that opened the modal) *@
+@*         document.querySelector('#openModalButton').focus(); *@
+@*     } *@
+
+@*     closeButton.addEventListener('click', closeModal); *@
+@* </script> *@

@@ -1,4 +1,145 @@
 ﻿@page
 @model OnlineBookStore.Pages.Book.BookModel
+
+<link rel="stylesheet" type="text/css" href="~/css/Book/book.css" />
 @{
+	ViewData["ModalTitle"] = "Add Book";
 }
+
+<div class="book-container">
+	<div class="title">
+		<h2>Book</h2>
+
+		<div class="add-book">
+			<button type="button" class="open-modal">Add Book</button>
+		</div>
+	</div>
+
+	<div class="book-table">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Book Name</th>
+					<th>Category</th>
+					<th>Quantity</th>
+					<th>Price</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				@if (Model.Books != null && Model.Books.Any())
+				{
+					@foreach (var book in Model.Books)
+					{
+						<tr>
+							<td>@book.BookTitle</td>
+							<td>@book.Category</td>
+							<td>@book.Quantity</td>
+							<td>@book.Rate</td>
+							<td>
+								<button type="button" class="btn btn-secondary">Edit</button>
+								<button type="button" class="btn btn-danger">Delete</button>
+							</td>
+						</tr>
+					}
+				}
+				else
+				{
+					<tr>
+						<td>Learn Dotnet</td>
+						<td>Programming</td>
+						<td>100</td>
+						<td>500.00</td>
+						<td>
+							<button type="button" class="btn btn-secondary">Edit</button>
+							<button type="button" class="btn btn-danger">Delete</button>
+						</td>
+					</tr>
+					<tr class="empty">
+						<td colspan="2">No Authors found</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!--Modal-->
+<div id="bookModal" class="modal" draggable="true">
+	<div class="modal-content">
+		<!-- Include Header-->
+		@await Html.PartialAsync("../Shared/_ModalHeader.cshtml")
+
+		<!-- Modal Body (Input Fields) -->
+		<div class="modal-body">
+			<form method="post" class="new-book-form">
+				<div class="input-group">
+					<div>
+						<label for="bookName">Book Name</label>
+						<input type="text" asp-for="BookTitle" id="bookName" class="input-field" placeholder="Enter book name" />
+					</div>
+
+					<div>
+						<label for="quantity">Quantity</label>
+						<input type="text" asp-for="Quantity" id="quantity" class="input-field" placeholder="Enter quantity" />
+					</div>
+
+					<div>
+						<label for="rate">Rate</label>
+						<input type="text" asp-for="Rate" id="rate" class="input-field" placeholder="Enter rate" />
+					</div>
+
+					<div>
+						<label for="category">Category</label>
+						<select id="category" asp-for="Category">
+							<option value="IT">IT</option>
+							<option value="History">History</option>
+							<option value="Science">Science</option>
+						</select>
+					</div>
+
+					<div>
+						<label for="description">Description</label>
+						<input type="text" asp-for="Description" id="description" class="input-field" placeholder="Enter description" />
+					</div>
+				</div>
+			</form>
+
+		</div>
+
+		<!-- Include Footer -->
+		@await Html.PartialAsync("../Shared/_ModalFooter.cshtml")
+	</div>
+</div>
+
+<script>
+	document.addEventListener("DOMContentLoaded", function(){
+		var modal = document.getElementById('bookModal');
+		var openBtn = document.querySelector(".open-modal");
+		var closeBtn = document.querySelector(".close");
+		var cancelBtn = document.querySelector(".btn-cancel");
+
+		// Open modal when Add Author button is clicked
+		openBtn.addEventListener("click", function(){
+			modal.style.display="flex";
+		});
+
+		// Close modal when close (X) button is clicked
+		closeBtn.addEventListener("click", function(){
+			modal.style.display = "none";
+		});
+
+		// Close modal when cancel button is clicked
+		cancelBtn.addEventListener("click", function(){
+			modal.style.display = "none";
+		});
+
+		// Close modal if user clicks outside the modal content
+		window.addEventListener("click", function (event) {
+			if (event.target === modal) {
+				modal.style.display = "none";
+			}
+		});
+	});
+</script>

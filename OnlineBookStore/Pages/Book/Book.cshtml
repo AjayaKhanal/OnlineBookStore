@@ -2,6 +2,8 @@
 @model OnlineBookStore.Pages.Book.BookModel
 
 <link rel="stylesheet" type="text/css" href="~/css/Book/book.css" />
+<script src="~/js/modal.js"></script>
+
 @{
 	ViewData["ModalTitle"] = "Add Book";
 }
@@ -57,7 +59,7 @@
 						</td>
 					</tr>
 					<tr class="empty">
-						<td colspan="2">No Authors found</td>
+						<td colspan="5">No Books found</td>
 					</tr>
 				}
 			</tbody>
@@ -66,7 +68,7 @@
 </div>
 
 <!--Modal-->
-<div id="bookModal" class="modal" draggable="true">
+<div id="modal" class="modal" draggable="true">
 	<div class="modal-content">
 		<!-- Include Header-->
 		@await Html.PartialAsync("../Shared/_ModalHeader.cshtml")
@@ -77,22 +79,22 @@
 				<div class="input-group">
 					<div>
 						<label for="bookName">Book Name</label>
-						<input type="text" asp-for="BookTitle" id="bookName" class="input-field" placeholder="Enter book name" />
+						<input type="text" asp-for="Book.BookTitle" id="bookName" class="input-field" placeholder="Enter book name" required />
 					</div>
 
 					<div>
 						<label for="quantity">Quantity</label>
-						<input type="text" asp-for="Quantity" id="quantity" class="input-field" placeholder="Enter quantity" />
+						<input type="text" asp-for="Book.Quantity" id="quantity" class="input-field" placeholder="Enter quantity" required />
 					</div>
 
 					<div>
 						<label for="rate">Rate</label>
-						<input type="text" asp-for="Rate" id="rate" class="input-field" placeholder="Enter rate" />
+						<input type="text" asp-for="Book.Rate" id="rate" class="input-field" placeholder="Enter rate" required />
 					</div>
 
 					<div>
 						<label for="category">Category</label>
-						<select id="category" asp-for="Category">
+						<select id="category" asp-for="Book.Category">
 							<option value="IT">IT</option>
 							<option value="History">History</option>
 							<option value="Science">Science</option>
@@ -101,7 +103,7 @@
 
 					<div>
 						<label for="description">Description</label>
-						<input type="text" asp-for="Description" id="description" class="input-field" placeholder="Enter description" />
+						<input type="text" asp-for="Book.Description" id="description" class="input-field" placeholder="Enter description" />
 					</div>
 				</div>
 			</form>
@@ -112,34 +114,3 @@
 		@await Html.PartialAsync("../Shared/_ModalFooter.cshtml")
 	</div>
 </div>
-
-<script>
-	document.addEventListener("DOMContentLoaded", function(){
-		var modal = document.getElementById('bookModal');
-		var openBtn = document.querySelector(".open-modal");
-		var closeBtn = document.querySelector(".close");
-		var cancelBtn = document.querySelector(".btn-cancel");
-
-		// Open modal when Add Author button is clicked
-		openBtn.addEventListener("click", function(){
-			modal.style.display="flex";
-		});
-
-		// Close modal when close (X) button is clicked
-		closeBtn.addEventListener("click", function(){
-			modal.style.display = "none";
-		});
-
-		// Close modal when cancel button is clicked
-		cancelBtn.addEventListener("click", function(){
-			modal.style.display = "none";
-		});
-
-		// Close modal if user clicks outside the modal content
-		window.addEventListener("click", function (event) {
-			if (event.target === modal) {
-				modal.style.display = "none";
-			}
-		});
-	});
-</script>

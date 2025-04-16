@@ -1,4 +1,97 @@
 ﻿@page
 @model OnlineBookStore.Pages.User.UserModel
+
+<link rel="stylesheet" type="text/css" href="~/css/User/user.css" />
+<script src="~/js/modal.js"></script>
+
 @{
+	ViewData["ModalTitle"] = "Add User";
 }
+
+
+<div class="user-container">
+	<div class="title">
+		<h2>User</h2>
+
+		<div class="add-user">
+			<button type="button" class="open-modal">Add User</button>
+		</div>
+	</div>
+
+	<div class="role-table">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>User Name</th>
+					<th>Email</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				@if (Model.Users != null && Model.Users.Any())
+				{
+					@foreach (var user in Model.Users)
+					{
+						<tr>
+							<td>@user.FullName</td>
+							<td>@user.Email</td>
+							<td>
+								<button type="button" class="btn btn-secondary">Edit</button>
+								<button type="button" class="btn btn-danger">Delete</button>
+							</td>
+						</tr>
+					}
+				}
+				else
+				{
+					<tr>
+						<td>Ajaya</td>
+						<td>ajaya@gmail.com</td>
+						<td>
+							<button type="button" class="btn btn-secondary">Edit</button>
+							<button type="button" class="btn btn-danger">Delete</button>
+						</td>
+					</tr>
+					<tr class="empty">
+						<td colspan="3">No Users found</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!--Modal-->
+<div id="modal" class="modal" draggable="true">
+	<div class="modal-content">
+		<!-- Include Header-->
+		@await Html.PartialAsync("../Shared/_ModalHeader.cshtml")
+
+		<!-- Modal Body (Input Fields) -->
+		<div class="modal-body">
+			<form method="post" class="new-book-form">
+				<div class="input-group">
+					<div>
+						<label for="userName">User Name</label>
+						<input type="text" asp-for="User.FullName" id="userName" class="input-field" placeholder="Enter user name" required />
+					</div>
+
+					<div>
+						<label for="email">Email</label>
+						<input type="email" asp-for="User.Email" id="email" class="input-field" placeholder="Enter email" required />
+					</div>
+
+					<div>
+						<label for="psd">Email</label>
+						<input type="password" asp-for="User.Password" id="psd" class="input-field" placeholder="Enter password" required />
+					</div>
+				</div>
+			</form>
+
+		</div>
+
+		<!-- Include Footer -->
+		@await Html.PartialAsync("../Shared/_ModalFooter.cshtml")
+	</div>
+</div>

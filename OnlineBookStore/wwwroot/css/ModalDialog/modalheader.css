@@ -33,23 +33,3 @@
         transform: scale(1.2); /* Slightly enlarges on hover */
         color: #ff4747; /* Change to a red color for hover */
     }
-
-    .close:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px #ff4747; /* Visual cue for focus */
-    }
-
-/* Mobile Responsiveness */
-@media (max-width: 600px) {
-    .modalheader {
-        padding: 0 10px;
-    }
-
-        .modalheader h2 {
-            font-size: 1rem; /* Smaller font on mobile */
-        }
-
-    .close {
-        font-size: 1.2rem; /* Slightly smaller close button on mobile */
-    }
-}

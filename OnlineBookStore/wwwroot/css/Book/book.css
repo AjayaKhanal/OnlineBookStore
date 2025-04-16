@@ -1,61 +1,79 @@
 ﻿body {
     margin: 0px;
+    background-color: #f4f4f4;
+    color: #333;
 }
 
 .book-container {
+    margin: 100px 0px 0px 30px;
+    background-color: #fff;
+    padding: 1.5rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
     width: 110%;
     max-width: 80rem;
-    min-width: 480px;
-    background-color: #f9f9f9;
-    margin: 0 auto;  /*Centers it horizontally */
-    padding: 20px 0px 0px 20px;
 }
 
 .title {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    gap: 10px;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     background-color: #C4C0C0;
     border-radius: 8px;
     padding: 10px;
 }
 
-    .title h2 {
-        font-weight: bold;
-        padding-left: 5px;
+@media(min-width: 600px) {
+    .title {
+        flex-direction: row;
+        align-items: center;
     }
-
-    .title .add-book {
-        cursor: pointer;
-        padding-right: 5px;
-    }
-
-        .title .add-book button {
-            padding: 5px 10px;
-            background-color: #1F19BE;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            padding: 5px;
-            transition: background-color 0.5s ease-in-out;
-        }
-
-            .title .add-book button:hover {
-                background-color: #170FFA;
-                font-size: 1.05rem;
-            }
-
-/*.new-book-form {
-    display: none;
-}*/
-
-.empty {
-    text-align: center;
 }
 
+.title h2 {
+    font-weight: bold;
+    margin: 0;
+    padding-left: 5px;
+}
+
+.title .add-book button {
+    background-color: #1F19BE;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+    .title .add-book button:hover {
+        background-color: #170FFA;
+        transform: scale(1.05);
+    }
+
 .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+    .table th,
+    .table td {
+        padding: 0.75rem;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    .table th {
+        background-color: #f2f2f2;
+    }
+
+.empty td {
     text-align: center;
+    font-style: italic;
+    color: #777;
 }
 
 .modal {
@@ -69,52 +87,59 @@
     background-color: rgba(0,0,0,0.7);
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
 }
 
 .modal-content {
     background-color: white;
-    width: 400px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
+    width: 100%;
+    max-width: 400px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 15px rgba(0,0,0,0.2);
     position: relative;
 }
 
 .input-group {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 10px;
+    margin-bottom: 1rem;
 }
 
-.input-group div{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-    .input-group div input {
-        outline: none;
-        border: 1px solid #b3b3b3;
+    .input-group div {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
     }
 
-        .input-group div input:focus {
-            border: 1px solid #03A9F4;
+        .input-group div label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
         }
 
-#category{
-    width:50%;
+        .input-group div input, select {
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+            .input-group div input:focus, select:focus {
+                outline: none;
+                border-color: #03A9F4;
+                box-shadow: 0 0 3px rgba(3, 169, 244, 0.5);
+            }
+
+#category {
+    width: 200px;
 }
 
-@media (max-width: 500px) {
-    .book-container {
-        width: 95%; /* Further reduces width for smaller screens */
-        min-width: auto; /* Allows it to shrink below 480px if necessary */
+@media(max-width: 500px) {
+    .modal-content {
+        width: 100%;
     }
-}
 
-@media (max-width: 680px) {
-    .book-container {
-        width: 95%; /* Further reduces width for smaller screens */
-        min-width: auto; /* Allows it to shrink below 480px if necessary */
+    #category{
+        width: 0.9rem;
     }
 }

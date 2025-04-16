@@ -1,5 +1,83 @@
 ﻿@page
 @model OnlineBookStore.Pages.Role.RoleModel
+
+<link rel="stylesheet" type="text/css" href="~/css/Role/role.css" />
+<script src="~/js/modal.js"></script>
+
 @{
+	ViewData["ModalTitle"] = "Add Role";
 }
-<h1>Role</h1>
+
+<div class="role-container">
+	<div class="title">
+		<h2>Role</h2>
+
+		<div class="add-role">
+			<button type="button" class="open-modal">Add Role</button>
+		</div>
+	</div>
+
+	<div class="role-table">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Role Name</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				@if (Model.Roles != null && Model.Roles.Any())
+				{
+					@foreach (var role in Model.Roles)
+					{
+						<tr>
+							<td>@role.RoleName</td>
+							<td>
+								<button type="button" class="btn btn-secondary">Edit</button>
+								<button type="button" class="btn btn-danger">Delete</button>
+							</td>
+						</tr>
+					}
+				}
+				else
+				{
+					<tr>
+						<td>Admin</td>
+						<td>
+							<button type="button" class="btn btn-secondary">Edit</button>
+							<button type="button" class="btn btn-danger">Delete</button>
+						</td>
+					</tr>
+					<tr class="empty">
+						<td colspan="5">No Roles found</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<!--Modal-->
+<div id="modal" class="modal" draggable="true">
+	<div class="modal-content">
+		<!-- Include Header-->
+		@await Html.PartialAsync("../Shared/_ModalHeader.cshtml")
+
+		<!-- Modal Body (Input Fields) -->
+		<div class="modal-body">
+			<form method="post" class="new-book-form">
+				<div class="input-group">
+					
+						<label for="roleName">Role Name</label>
+					<input type="text" asp-for="Role.RoleName" id="roleName" class="input-field" placeholder="Enter role name" required />
+					
+				</div>
+			</form>
+
+		</div>
+
+		<!-- Include Footer -->
+		@await Html.PartialAsync("../Shared/_ModalFooter.cshtml")
+	</div>
+</div>

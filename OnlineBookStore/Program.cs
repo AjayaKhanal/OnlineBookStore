@@ -1,6 +1,11 @@
+using OnlineBookStore.Repository.Implementation;
+using OnlineBookStore.Repository.Interface;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddScoped<IBaseRepository, BaseRepository>();
+builder.Services.AddSingleton<IAuthorRepository, AuthorRepository>();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();

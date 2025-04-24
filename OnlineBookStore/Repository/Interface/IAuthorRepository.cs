@@ -1,13 +1,14 @@
-﻿using OnlineBookStore.Pages.Author;
+﻿using System.Data;
+using OnlineBookStore.Pages.Author;
 
 namespace OnlineBookStore.Repository.Interface
 {
     public interface IAuthorRepository
     {
-        public void GetAllAuthors();
-        public void GetAuthorById(int id);
-        public void InsertAuthor(AuthorModel authorModel);
-        public void UpdateAuthor(int id, AuthorModel authorModel);
-        public void DeleteAuthor(int id);
+        Task<(DataTable Authors, string Message, int Code)> GetAllAuthorsAsync();
+        Task<(DataRow Author, string Message, int Code)> GetAuthorByIdAsync(int id);
+        Task<(string Message, int Code)> InsertAuthorAsync(AuthorItem authorModel);
+        Task<(string Message, int Code)> UpdateAuthorAsync(int id, AuthorItem authorModel);
+        Task<(string Message, int Code)> DeleteAuthorAsync(int id);
     }
 }

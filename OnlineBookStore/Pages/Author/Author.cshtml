@@ -13,8 +13,14 @@
 		<h2>Author</h2>
 		
 		<div class="add-author">
-			<button type="button" class="open-modal">Add Author</button>
+			<button type="submit" asp-page-handler="Create" class="btn-outline-primary open-modal">Add Author</button>
+
 		</div>
+	</div>
+
+	<div class="mid">
+		<div></div>
+		<input type="text" id="searchInput" placeholder="Search by name..." class="form-control mb-2" />
 	</div>
 
 	<div class="author-table">
@@ -57,6 +63,10 @@
 	</div>
 </div>
 
+<div class="alert">
+	@await Html.PartialAsync("../Shared/_AlertMessage.cshtml")
+</div>
+
 <!--Modal-->
 <div id="modal" class="modal" draggable="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
 	<div class="modal-content">
@@ -81,3 +91,13 @@
 		@await Html.PartialAsync("../Shared/_ModalFooter.cshtml")
 	</div>
 </div>
+
+<script>
+	document.getElementById("searchInput").addEventListener("keyup", function () {
+		const filter = this.value.toLowerCase();
+		document.querySelectorAll(".author-table tbody tr").forEach(row => {
+			const name = row.querySelector("td").textContent.toLowerCase();
+			row.style.display = name.includes(filter) ? "" : "none";
+		});
+	});
+</script>

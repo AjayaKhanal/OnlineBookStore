@@ -1,0 +1,6 @@
+﻿@if (!string.IsNullOrEmpty(TempData["FeedbackMessage"]?.ToString()))
+{
+    <div class="alert alert-@TempData["FeedbackType"]">
+        @TempData["FeedbackMessage"]
+    </div>
+}

@@ -1,0 +1,18 @@
+﻿@{
+	ViewData["ModalTitle"] = "Delete " + @ViewData["DeleteTitle"];
+}
+<link rel="stylesheet" type="text/css" href="~/css/ModalDialog/confirmDelete.css" />
+<script src="~/js/confirmDelete.js"></script>
+
+<form method="post" asp-page-handler="Delete">
+	<div id="deleteModal" class="dmodal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+		<div class="dmodal-content">
+			@await Html.PartialAsync("../Shared/_ModalHeader.cshtml")
+			<div class="modal-body">
+				<h4 class="delete-msg">Do you want to delete <span id="deleteName"></span>?</h4>
+				<input type="hidden" id="deleteId" name="id" />
+			</div>
+			@await Html.PartialAsync("../Shared/_ModalFooter.cshtml")
+		</div>
+	</div>
+</form>

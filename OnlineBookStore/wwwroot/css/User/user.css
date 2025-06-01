@@ -38,6 +38,10 @@
     padding-left: 5px;
 }
 
+.mid {
+    width: 50%;
+}
+
 .add-user button {
     background-color: #1F19BE;
     color: #fff;

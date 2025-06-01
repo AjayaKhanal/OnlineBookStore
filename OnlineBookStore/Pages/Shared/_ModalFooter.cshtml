@@ -1,7 +1,24 @@
 ﻿<link rel="stylesheet" type="text/css" href="~/css/ModalDialog/modalfooter.css" />
 
+@{
+    var modalTitle = ViewData["ModalTitle"]?.ToString() ?? "";
+    var isDelete = modalTitle.ToLower().Contains("delete");
+    var isNew = modalTitle.ToLower().Contains("add");
+    var isUpdate = modalTitle.ToLower().Contains("edit");
+    var buttonText = isDelete ? "Delete" : isUpdate ? "Update" : isNew ? "Save": "";
+    // buttonText = isUpdate ? "Update";
+    // buttonText = isNew ? "Save";
+    var buttonClass = isDelete ? "btn-delete" : "btn-save";
+    var handler = isDelete ? "Delete" : "Create";
+    var ariaLabel = buttonText + " Changes";
+    var cancelClass = isDelete ? "btn-dcancel" : "btn-cancel";
+}
+
 @* Modal Footer *@
 <div class="modalfooter">
-	<button type="submit" class="btn btn-save" aria-label="Save Changes">Save</button>
-	<button type="button" class="btn btn-cancel" aria-label="Cancel Changes">Cancel</button>
+    <button type="submit" class="btn @buttonClass" asp-page-handler="@handler" aria-label="@ariaLabel">
+        @buttonText
+    </button>
+    <button type="button" class="btn @cancelClass" aria-label="Cancel Changes">Cancel</button>
 </div>
+

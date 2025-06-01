@@ -18,18 +18,18 @@
         flex-grow: 1; /* Ensure the title takes up available space */
     }
 
-.modalheader h2,.close{
+.modalheader h2,.close,.dclose{
     color: white;
 }
 
-.close {
+.close, .dclose {
     font-size: 1.5rem;
     font-weight: bold;
     cursor: pointer;
     transition: transform 0.2s ease-in-out;
 }
 
-    .close:hover {
+    .close:hover, .dclose:hover {
         transform: scale(1.2); /* Slightly enlarges on hover */
         color: #ff4747; /* Change to a red color for hover */
     }

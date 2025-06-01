@@ -3,14 +3,21 @@
 
 <link rel="stylesheet" type="text/css" href="~/css/Role/role.css" />
 <script src="~/js/modal.js"></script>
+<script src="~/js/confirmDelete.js"></script>
 
 @{
 	ViewData["ModalTitle"] = "Add Role";
+	ViewData["DeleteTitle"] = "Role";
 }
 
 <div class="role-container">
 	<div class="title">
 		<h2>Role</h2>
+
+		<div class="mid">
+			<div></div>
+			<input type="text" id="searchInput" placeholder="Search by name..." class="form-control" />
+		</div>
 
 		<div class="add-role">
 			<button type="button" class="open-modal">Add Role</button>
@@ -21,6 +28,7 @@
 		<table class="table">
 			<thead>
 				<tr>
+					<th hidden>Role Id</th>
 					<th>Role Name</th>
 					<th>Actions</th>
 				</tr>
@@ -32,23 +40,25 @@
 					@foreach (var role in Model.Roles)
 					{
 						<tr>
+							<td hidden>@role.RoleId</td>
 							<td>@role.RoleName</td>
 							<td>
-								<button type="button" class="btn btn-secondary">Edit</button>
-								<button type="button" class="btn btn-danger">Delete</button>
+								<button type="button" class="btn btn-secondary edit-btn"
+										data-id="@role.RoleId"
+										data-name="@role.RoleName">
+									Edit
+								</button>
+								<button type="button" asp-page-handler="Delete" class="btn btn-danger del-butn"
+										data-id="@role.RoleId"
+										data-name="@role.RoleName">
+									Delete
+								</button>
 							</td>
 						</tr>
 					}
 				}
 				else
 				{
-					<tr>
-						<td>Admin</td>
-						<td>
-							<button type="button" class="btn btn-secondary">Edit</button>
-							<button type="button" class="btn btn-danger">Delete</button>
-						</td>
-					</tr>
 					<tr class="empty">
 						<td colspan="5">No Roles found</td>
 					</tr>
@@ -61,23 +71,74 @@
 <!--Modal-->
 <div id="modal" class="modal" draggable="true">
 	<div class="modal-content">
-		<!-- Include Header-->
-		@await Html.PartialAsync("../Shared/_ModalHeader.cshtml")
+		<form method="post" class="new-form">
+			<!-- Include Header-->
+			@await Html.PartialAsync("../Shared/_ModalHeader.cshtml")
 
-		<!-- Modal Body (Input Fields) -->
-		<div class="modal-body">
-			<form method="post" class="new-book-form">
+			<!-- Modal Body (Input Fields) -->
+			<div class="modal-body">
+
 				<div class="input-group">
-					
-						<label for="roleName">Role Name</label>
+
+					<label for="roleName">Role Name</label>
 					<input type="text" asp-for="Role.RoleName" id="roleName" class="input-field" placeholder="Enter role name" required />
-					
+
 				</div>
-			</form>
+			</div>
 
-		</div>
-
-		<!-- Include Footer -->
-		@await Html.PartialAsync("../Shared/_ModalFooter.cshtml")
+			<!-- Include Footer -->
+			@await Html.PartialAsync("../Shared/_ModalFooter.cshtml")
+		</form>
 	</div>
 </div>
+
+@await Html.PartialAsync("../Shared/_ConfirmDelete.cshtml")
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+
+	<script>
+		document.getElementById("searchInput").addEventListener("keyup", function () {
+			const filter = this.value.toLowerCase();
+			document.querySelectorAll(".role-table tbody tr").forEach(row => {
+				const name = row.querySelectorAll("td")[1].textContent.toLowerCase();
+				row.style.display = name.includes(filter) ? "" : "none";
+			});
+		});
+
+		document.querySelectorAll(".edit-btn").forEach(button => {
+			button.addEventListener("click", () => {
+				const modalTitle = document.querySelector(".modalheader");
+				const form = document.querySelector(".new-form");
+				const input = document.getElementById("roleName");
+				var modal = document.getElementById('modal');
+
+				// Set modal title
+				modalTitle.textContent = "Edit Role";
+
+				// Set form values
+				input.value = button.dataset.name;
+
+				// Add hidden input for AuthorId if not exists
+				let hiddenId = document.getElementById("roleId");
+				if (!hiddenId) {
+					hiddenId = document.createElement("input");
+					hiddenId.type = "hidden";
+					hiddenId.id = "roleId";
+					hiddenId.name = "Role.RoleId";
+					form.appendChild(hiddenId);
+				}
+				hiddenId.value = button.dataset.id;
+
+				// Change handler to Update
+				form.setAttribute("asp-page-handler", "Edit");
+
+				modal.style.display = "flex";
+				document.getElementsByClassName("input-field")[0].focus();
+			});
+		});
+
+	</script>
+}

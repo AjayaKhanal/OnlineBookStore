@@ -3,6 +3,7 @@
 
 <link rel="stylesheet" type="text/css" href="~/css/Book/book.css" />
 <script src="~/js/modal.js"></script>
+<script src="~/js/confirmDelete.js"></script>
 
 @{
 	ViewData["ModalTitle"] = "Add Book";
@@ -11,6 +12,11 @@
 <div class="book-container">
 	<div class="title">
 		<h2>Book</h2>
+
+		<div class="mid">
+			<div></div>
+			<input type="text" id="searchInput" placeholder="Search by name..." class="form-control" />
+		</div>
 
 		<div class="add-book">
 			<button type="button" class="open-modal">Add Book</button>
@@ -21,6 +27,7 @@
 		<table class="table">
 			<thead>
 				<tr>
+					<th hidden>Book Id</th>
 					<th>Book Name</th>
 					<th>Category</th>
 					<th>Quantity</th>
@@ -35,29 +42,24 @@
 					@foreach (var book in Model.Books)
 					{
 						<tr>
+							<td hidden>@book.BookId</td>
 							<td>@book.BookTitle</td>
 							<td>@book.Category</td>
 							<td>@book.Quantity</td>
 							<td>@book.Rate</td>
 							<td>
 								<button type="button" class="btn btn-secondary">Edit</button>
-								<button type="button" class="btn btn-danger">Delete</button>
+								<button type="button" asp-page-handler="Delete" class="btn btn-danger del-butn"
+										data-id="@book.BookId"
+										data-name="@book.BookTitle">
+									Delete
+								</button>
 							</td>
 						</tr>
 					}
 				}
 				else
 				{
-					<tr>
-						<td>Learn Dotnet</td>
-						<td>Programming</td>
-						<td>100</td>
-						<td>500.00</td>
-						<td>
-							<button type="button" class="btn btn-secondary">Edit</button>
-							<button type="button" class="btn btn-danger">Delete</button>
-						</td>
-					</tr>
 					<tr class="empty">
 						<td colspan="5">No Books found</td>
 					</tr>
@@ -114,3 +116,23 @@
 		@await Html.PartialAsync("../Shared/_ModalFooter.cshtml")
 	</div>
 </div>
+
+@await Html.PartialAsync("../Shared/_ConfirmDelete.cshtml")
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+
+	<script>
+		var searchInput = document.getElementById("searchInput");
+
+		searchInput.addEventListener("keyup", function () {
+			const filter = this.value.toLowerCase();
+			document.querySelectorAll(".book-table tbody tr").forEach(row => {
+				const name = row.querySelectorAll("td")[1].textContent.toLowerCase();
+				row.style.display = name.includes(filter) ? "" : "none";
+			});
+		});
+	</script>
+}

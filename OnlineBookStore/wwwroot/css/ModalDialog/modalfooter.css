@@ -1,52 +1,55 @@
-﻿
+﻿.btn-delete {
+    background-color: #D20103;
+    color: white;
+}
+
+.btn-save {
+    background-color: #1F19BE;
+    color: white;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    .btn:hover {
+        opacity: 0.9;
+        color: white;
+    }
+
+.btn-cancel, .btn-dcancel {
+    background-color: #6c757d;
+    color: white;
+}
+
 .modalfooter {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
     background-color: #f2f2f2;
-    padding: 10px 20px; 
+    padding: 10px 20px;
     border-top: 1px solid #ddd; /* Adding a border to separate the footer from the content */
     border-radius: 0 0 5px 5px; /* Rounded corners for the footer */
 }
 
-.btn-save {
-    background: #2E7D32;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: background-color 0.5s ease;
-    cursor: pointer;
-}
-
-    .btn-save:hover {
-        background-color: #43A047;
-        color: white;
-    }
-
     .btn-save:focus {
         outline: none;
-        box-shadow: 0 0 0 2px #43A047; /* Add focus outline for accessibility */
-    }
-
-.btn-cancel {
-    background-color: transparent;
-    color: #555;
-    border: 0.5px solid #aaa;
-    padding: 10px 20px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    cursor: pointer;
-}
-
-    .btn-cancel:hover {
-        background-color: #e0e0e0;
+        box-shadow: 0 0 0 2px #43A047;  /*Add focus outline for accessibility */
     }
 
     .btn-cancel:focus {
         outline: none;
-        box-shadow: 0 0 0 2px #aaa; /* Focus outline for accessibility */
+        box-shadow: 0 0 0 2px #aaa;  /*Focus outline for accessibility*/ 
     }
+
+.btn-danger:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #aaa; /*Focus outline for accessibility*/
+}
 
 /* Mobile Responsiveness */
 @media (max-width: 600px) {
@@ -56,7 +59,7 @@
         padding: 10px 15px; /* Slightly reduced padding on mobile */
     }
 
-    .btn-save, .btn-cancel {
+    .btn-save, .btn-cancel, .btn-danger, btn-dcancel {
         width: 100%; /* Full width buttons for mobile */
         margin: 5px 0; /* Spacing between buttons */
         padding: 12px 0; /* Larger padding for better touch area */

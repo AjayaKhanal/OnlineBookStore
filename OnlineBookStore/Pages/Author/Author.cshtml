@@ -6,7 +6,6 @@
 <script src="~/js/confirmDelete.js"></script>
 
 @{
-	ViewData["ModalTitle"] = "Add Author";
 	ViewData["DeleteTitle"] = "Author";
 }
 
@@ -44,8 +43,10 @@
 							<td>@author.AuthorName</td>
 							<td>
 								<button type="button" asp-page-handler="Edit" class="btn btn-secondary edit-btn"
-								data-id="@author.AuthorId"
-								data-name="@author.AuthorName">Edit</button>
+										data-id="@author.AuthorId"
+										data-name="@author.AuthorName">
+									Edit
+								</button>
 								<button type="button" asp-page-handler="Delete" class="btn btn-danger del-butn open-delete-modal"
 										data-id="@author.AuthorId"
 										data-name="@author.AuthorName">
@@ -72,7 +73,7 @@
 		<form method="post" class="new-form">
 			@Html.AntiForgeryToken()
 			<!-- Include Header-->
-			@await Html.PartialAsync("../Shared/_ModalHeader.cshtml")
+			@await Html.PartialAsync("../Shared/_ModalHeader.cshtml", "Add Author")
 
 			<!-- Modal Body (Input Fields) -->
 			<div class="modal-body">
@@ -81,13 +82,10 @@
 					<label for="authorName">Author Name</label>
 					<input type="text" asp-for="Author.AuthorName" id="authorName" class="input-field" placeholder="Enter author name" required />
 				</div>
-				@* <div class="additional"> *@
-				@* 	<button type="button" id="additional-author" class="btn-outline-primary">Add Author</button> *@
-				@* </div> *@
 			</div>
 
 			<!-- Include Footer -->
-			@await Html.PartialAsync("../Shared/_ModalFooter.cshtml")
+			@await Html.PartialAsync("../Shared/_ModalFooter.cshtml", "Save")
 		</form>
 	</div>
 </div>
@@ -97,23 +95,20 @@
 		<form method="post" asp-page-handler="Edit" class="edit-form">
 			@Html.AntiForgeryToken()
 			<!-- Include Header-->
-			@await Html.PartialAsync("../Shared/_ModalHeader.cshtml")
+			@await Html.PartialAsync("../Shared/_ModalHeader.cshtml", "Edit Author")
 
 			<!-- Modal Body (Input Fields) -->
 			<div class="modal-body">
 
 				<div class="input-group">
-					<input type="hidden" asp-for="Author.AuthorId" class="authorId" />
 					<label for="authorName">Author Name</label>
-					<input type="text" asp-for="Author.AuthorName" class="authorName" name="AuthorName" class="input-field" placeholder="Enter author name" required />
+					<input type="text" name="Author.AuthorName" class="input-field authorName" placeholder="Enter author name" required />
+					<input type="hidden" name="id" class="authorId" id="authorId" />
 				</div>
-				@* <div class="additional"> *@
-				@* 	<button type="button" id="additional-author" class="btn-outline-primary">Add Author</button> *@
-				@* </div> *@
 			</div>
 
 			<!-- Include Footer -->
-			@await Html.PartialAsync("../Shared/_ModalFooter.cshtml")
+			@await Html.PartialAsync("../Shared/_ModalFooter.cshtml","Update")
 		</form>
 	</div>
 </div>
@@ -134,13 +129,20 @@
 				row.style.display = name.includes(filter) ? "" : "none";
 			});
 		});
-		
+
 	</script>
 
 	<script>
-				$(document).ready(function () {
+		$(document).ready(function () {
+
+			var fun = function(){
+				$('#e-modal').css("display", "none");
+			};
+
 			$(".edit-btn").on("click", function () {
 				const authorId = $(this).data("id");
+
+				$('.close, .btn-cancel').on("click", fun);
 
 				$.ajax({
 					url: 'Author?handler=Edit',
@@ -148,16 +150,13 @@
 					data: { id: authorId },
 					dataType: 'json',
 					success: function (dataa) {
-						console.log("success ok");
 						if (dataa.code === "300") {
 							alert(dataa.message || "Author not found.");
 							return;
 						}
-						console.log("success ok");
-						// Set modal title
-						$(".modalTitle").text("Edit Author");
-						console.log("title ok");
-						// Set author name
+
+						// Set values
+						$("#authorId").val(dataa.authorId);
 						$(".authorName").val(dataa.authorName);
 
 						// Set or create hidden input for AuthorId
@@ -176,8 +175,8 @@
 						$(".edit-form").attr("asp-page-handler", "Edit");
 
 						// Show modal
-						$("#modal").css("display", "flex");
-						$(".input-field").first().focus();
+						$("#e-modal").css("display", "flex");
+						$(".authorName").focus();
 					},
 					error: function (ex) {
 						console.log('error'+ex.message);
@@ -185,6 +184,7 @@
 					}
 				});
 			});
+			
 		});
 	</script>
 

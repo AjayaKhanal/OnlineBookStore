@@ -1,24 +1,25 @@
 ﻿<link rel="stylesheet" type="text/css" href="~/css/ModalDialog/modalfooter.css" />
-
+@model string
 @{
-    var modalTitle = ViewData["ModalTitle"]?.ToString() ?? "";
-    var isDelete = modalTitle.ToLower().Contains("delete");
-    var isNew = modalTitle.ToLower().Contains("add");
-    var isUpdate = modalTitle.ToLower().Contains("edit");
-    var buttonText = isDelete ? "Delete" : isUpdate ? "Update" : isNew ? "Save": "";
-    // buttonText = isUpdate ? "Update";
-    // buttonText = isNew ? "Save";
-    var buttonClass = isDelete ? "btn-delete" : "btn-save";
-    var handler = isDelete ? "Delete" : "Create";
-    var ariaLabel = buttonText + " Changes";
-    var cancelClass = isDelete ? "btn-dcancel" : "btn-cancel";
+	var modalTitle = Model?? "";
+	var isDelete = modalTitle.ToLower().Contains("delete");
+	var isEdit = modalTitle.ToLower().Contains("edit");
+	var buttonText = modalTitle;
+	var buttonClass = isDelete ? "btn-delete" : isEdit ? "btn-update" : "btn-save";
+	var ariaLabel = buttonText + " Changes";
+	var cancelClass = isDelete ? "btn-dcancel" : "btn-cancel";
 }
 
 @* Modal Footer *@
 <div class="modalfooter">
-    <button type="submit" class="btn @buttonClass" asp-page-handler="@handler" aria-label="@ariaLabel">
-        @buttonText
-    </button>
-    <button type="button" class="btn @cancelClass" aria-label="Cancel Changes">Cancel</button>
-</div>
+	<label hidden>@modalTitle</label>
+	<button type="submit" class="btn @buttonClass" asp-page-handler="@buttonText" aria-label="@ariaLabel">
+		@buttonText
+	</button>
+@* 
+	<button type="submit" class="btn update-btn" asp-page-handler="Edit" aria-label="Update Changes" style="display: none;">
+		Update
+	</button> *@
 
+	<button type="button" class="btn @cancelClass" aria-label="Cancel Changes">Cancel</button>
+</div>

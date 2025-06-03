@@ -37,7 +37,7 @@ namespace OnlineBookStore.Pages.Author
 
         }
 
-        public async Task<IActionResult> OnPostCreateAsync()
+        public async Task<IActionResult> OnPostSaveAsync()
         {
             foreach (var value in ModelState.Values)
             {
@@ -66,7 +66,7 @@ namespace OnlineBookStore.Pages.Author
             return RedirectToPage();
         }
 
-        public async Task<IActionResult> OnPostEditAsync(int id)
+        public async Task<IActionResult> OnPostUpdateAsync(int id)
         {
             var existingAuthor = await _authorService.GetAuthorByIdAsync(id);
             if (existingAuthor == null)

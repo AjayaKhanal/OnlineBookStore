@@ -1,15 +1,19 @@
 ﻿<link rel="stylesheet" type="text/css" href="~/css/ModalDialog/modalheader.css"/>
+@model string
 
 @{
-    var modalTitle = ViewData["ModalTitle"]?.ToString() ?? "";
+    var modalTitle = Model ?? "";
+    var delTitle = ViewData["DeleteTitle"];
     var isDelete = modalTitle.ToLower().Contains("delete");
-    var isAdd = modalTitle.ToLower().Contains("add");
-    var isUpdate = modalTitle.ToLower().Contains("edit");
     var buttonClass = isDelete ? "dclose" : "close";
+    if (isDelete && delTitle!=null){
+        modalTitle += " "+ delTitle;
+    }
+    ViewData["ModalTitle"] = modalTitle;
 }
 
 @* Modal Header *@
 <div class="modalheader" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
-	<h2 id="modalTitle">@ViewData["ModalTitle"]</h2>
+	<h2 class="modalTitle">@modalTitle</h2>
     <span class="@buttonClass" tabindex="0" aria-label="Close">&times;</span>
 </div>

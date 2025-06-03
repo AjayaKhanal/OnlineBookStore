@@ -60,6 +60,7 @@ namespace OnlineBookStore.Repository.Implementation
             };
 
             command.Parameters.AddWithValue("@ACTION", "INSERT");
+            command.Parameters.AddWithValue("@ROLEID", roleItem.RoleId);
             command.Parameters.AddWithValue("@ROLENAME", roleItem.RoleName);
 
             var (messageParam, codeParam) = AddCommonParameters(command);
@@ -92,7 +93,7 @@ namespace OnlineBookStore.Repository.Implementation
                 CommandType = CommandType.StoredProcedure
             };
 
-            command.Parameters.AddWithValue("@ACTION", "UPDATE");
+            command.Parameters.AddWithValue("@ACTION", "DELETE");
             command.Parameters.AddWithValue("@ROLEID", id);
 
             var (messageParam, codeParam) = AddCommonParameters(command);

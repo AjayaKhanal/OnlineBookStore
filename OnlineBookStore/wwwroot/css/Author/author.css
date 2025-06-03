@@ -114,14 +114,14 @@
         margin-bottom: 0.5rem;
     }
 
-    .input-group #authorName {
+    .input-group .authorName, #authorName {
         padding: 0.5rem;
         border: 1px solid #ccc;
         border-radius: 4px;
         font-size: 1rem;
     }
 
-        .input-group #authorName:focus {
+        .input-group .authorName:focus, #authorName:focus {
             outline: none;
             border-color: #03A9F4;
             box-shadow: 0 0 3px rgba(3, 169, 244, 0.5);

@@ -3,7 +3,7 @@
     color: white;
 }
 
-.btn-save {
+.btn-save, .update-btn {
     background-color: #1F19BE;
     color: white;
 }
@@ -36,10 +36,10 @@
     border-radius: 0 0 5px 5px; /* Rounded corners for the footer */
 }
 
-    .btn-save:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px #43A047;  /*Add focus outline for accessibility */
-    }
+.btn-save:focus, .update-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #43A047; /*Add focus outline for accessibility */
+}
 
     .btn-cancel:focus {
         outline: none;
@@ -59,7 +59,7 @@
         padding: 10px 15px; /* Slightly reduced padding on mobile */
     }
 
-    .btn-save, .btn-cancel, .btn-danger, btn-dcancel {
+    .btn-save, .btn-cancel, .btn-danger, btn-dcancel, .update-btn {
         width: 100%; /* Full width buttons for mobile */
         margin: 5px 0; /* Spacing between buttons */
         padding: 12px 0; /* Larger padding for better touch area */

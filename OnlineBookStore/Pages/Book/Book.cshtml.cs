@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -46,6 +47,8 @@ namespace OnlineBookStore.Pages.Book
     {
         public int BookId { get; set; }
         [BindProperty]
+        [Required(ErrorMessage = "Book name is required.")]
+        [StringLength(100)]
         public string BookTitle { get; set; }
         public string Description { get; set; }
         public decimal Rate { get; set; }
@@ -53,5 +56,7 @@ namespace OnlineBookStore.Pages.Book
         public string Category { get; set; }
         //public string Author { get; set; }
         public List<String> authors { get; set; } = new List<string>();
+        public string? Message { get; set; }
+        public string? Code { get; set; }
     }
 }

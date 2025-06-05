@@ -3,7 +3,6 @@ using System.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using OnlineBookStore.DTO;
-using OnlineBookStore.Repository.Interface;
 using OnlineBookStore.Services.Interface;
 
 namespace OnlineBookStore.Pages.Author

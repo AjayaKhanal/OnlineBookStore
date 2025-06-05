@@ -1,11 +1,11 @@
 ﻿using System.Data;
-using OnlineCategoryStore.Pages.Category;
+using OnlineBookStore.Pages.Category;
 
 namespace OnlineBookStore.Repository.Interface
 {
-    public interface ICategoryRepository: IBaseRepository
+    public interface ICategoryRepository
     {
-        Task<(DataTable Categories, string Message, int Code)> GetAllCategorysAsync();
+        Task<(DataTable Categories, string Message, int Code)> GetAllCategoryAsync();
         Task<(DataRow Category, string Message, int Code)> GetCategoryByIdAsync(int id);
         Task<(string Message, int Code)> InsertCategoryAsync(CategoryItem CategoryModel);
         Task<(string Message, int Code)> UpdateCategoryAsync(int id, CategoryItem CategoryModel);

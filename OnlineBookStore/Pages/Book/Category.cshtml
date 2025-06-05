@@ -1,10 +1,10 @@
 ﻿@page
-@* @model OnlineCategoryStore.Pages.Category *@
+@model OnlineBookStore.Pages.Category.CategoryModel
 @{
 	ViewData["ModalTitle"] = "Add Category";
 }
 
-@* <link rel="stylesheet" type="text/css" href="~/css/Book/category.css" /> *@
+<link rel="stylesheet" type="text/css" href="~/css/Category/category.css" />
 <script src="~/js/modal.js"></script>
 <script src="~/js/confirmDelete.js"></script>
 
@@ -17,8 +17,175 @@
 			<input type="text" id="searchInput" placeholder="Search by name..." class="form-control" />
 		</div>
 
-		<div class="add-book">
+		<div class="add-category">
 			<button type="button" class="open-modal">Add Category</button>
 		</div>
 	</div>
+
+	<div class="category-table">
+		<table class="table">
+			<thead>
+				<tr>
+					<th hidden>CategoryId</th>
+					<th>Category Name</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				@if (Model.Categories != null && Model.Categories.Any())
+				{
+					@foreach (var Category in Model.Categories)
+					{
+						<tr>
+							<td hidden class="categoryId" name="id">@Category.CategoryId</td>
+							<td>@Category.CategoryName</td>
+							<td>
+								<button type="button" asp-page-handler="Edit" class="btn btn-secondary edit-btn"
+										data-id="@Category.CategoryId"
+										data-name="@Category.CategoryName">
+									Edit
+								</button>
+								<button type="button" asp-page-handler="Delete" class="btn btn-danger del-butn open-delete-modal"
+										data-id="@Category.CategoryId"
+										data-name="@Category.CategoryName">
+									Delete
+								</button>
+							</td>
+						</tr>
+					}
+				}
+				else
+				{
+					<tr class="empty">
+						<td colspan="2">No Categories found</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
 </div>
+
+<!--Modal-->
+<div id="modal" class="modal" draggable="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+	<div class="modal-content">
+		<form method="post" class="new-form">
+			@Html.AntiForgeryToken()
+			<!-- Include Header-->
+			@await Html.PartialAsync("../Shared/_ModalHeader.cshtml", "Add Category")
+
+			<!-- Modal Body (Input Fields) -->
+			<div class="modal-body">
+
+				<div class="input-group">
+					<label for="CategoryName">Category Name</label>
+					<input type="text" asp-for="Category.CategoryName" id="categoryName" class="input-field" placeholder="Enter Category name" required />
+				</div>
+			</div>
+
+			<!-- Include Footer -->
+			@await Html.PartialAsync("../Shared/_ModalFooter.cshtml", "Save")
+		</form>
+	</div>
+</div>
+
+<div id="e-modal" class="modal" draggable="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+	<div class="modal-content">
+		<form method="post" asp-page-handler="Edit" class="edit-form">
+			@Html.AntiForgeryToken()
+			<!-- Include Header-->
+			@await Html.PartialAsync("../Shared/_ModalHeader.cshtml", "Edit Category")
+
+			<!-- Modal Body (Input Fields) -->
+			<div class="modal-body">
+
+				<div class="input-group">
+					<label for="CategoryName">Category Name</label>
+					<input type="text" name="Category.CategoryName" class="input-field categoryName" placeholder="Enter Category name" required />
+					<input type="hidden" name="id" class="categoryId" id="categoryId" />
+				</div>
+			</div>
+
+			<!-- Include Footer -->
+			@await Html.PartialAsync("../Shared/_ModalFooter.cshtml", "Update")
+		</form>
+	</div>
+</div>
+
+@await Html.PartialAsync("../Shared/_ConfirmDelete.cshtml")
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+	<script>
+		var searchInput = document.getElementById("searchInput");
+
+		searchInput.addEventListener("keyup", function () {
+			const filter = this.value.toLowerCase();
+			document.querySelectorAll(".category-table tbody tr").forEach(row => {
+				const name = row.querySelectorAll("td")[1].textContent.toLowerCase();
+				row.style.display = name.includes(filter) ? "" : "none";
+			});
+		});
+
+	</script>
+
+	<script>
+		$(document).ready(function () {
+
+			var fun = function(){
+				$('#e-modal').css("display", "none");
+			};
+
+			$(".edit-btn").on("click", function () {
+				const CategoryId = $(this).data("id");
+
+				$('.close, .btn-cancel').on("click", fun);
+
+				$.ajax({
+					url: 'Category?handler=Edit',
+					type: 'GET',
+					data: { id: CategoryId },
+					dataType: 'json',
+					success: function (dataa) {
+						console.log(dataa);
+						if (dataa.code === "300") {
+							alert(dataa.message || "Category not found.");
+							return;
+						}
+
+						// Set values
+						$("#categoryId").val(dataa.categoryId);
+						$(".categoryName").val(dataa.categoryName);
+
+						// Set or create hidden input for CategoryId
+						let hiddenInput = $("#categoryId");
+						if (hiddenInput.length === 0) {
+							hiddenInput = $("<input>", {
+								type: "hidden",
+								id: "categoryId",
+								name: "Category.CategoryId"
+							});
+							$(".edit-form").append(hiddenInput);
+						}
+						hiddenInput.val(dataa.categoryId);
+
+						// Set form handler
+						$(".edit-form").attr("asp-page-handler", "Edit");
+
+						// Show modal
+						$("#e-modal").css("display", "flex");
+						$(".categoryName").focus();
+					},
+					error: function (ex) {
+						console.log('error'+ex.message);
+						alert("An error occurred while fetching Category data.");
+					}
+				});
+			});
+
+		});
+	</script>
+
+}

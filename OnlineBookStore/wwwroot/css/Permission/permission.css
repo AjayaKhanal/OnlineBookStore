@@ -1,0 +1,70 @@
+﻿body {
+    margin: 0px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.add-permission button {
+    background-color: #1F19BE;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+    .add-permission button:hover {
+        background-color: #170FFA;
+        transform: scale(1.05);
+    }
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.p-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+    .input-group label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .input-group input {
+        padding: 0.5rem;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 1rem;
+    }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #03A9F4;
+            box-shadow: 0 0 3px rgba(3, 169, 244, 0.5);
+        }
+
+
+.isActive {
+    width: 18px;
+    height: 16px;
+    accent-color: #007bff;
+    cursor: pointer;
+}
+
+    .isActive:hover {
+        box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+    }
+
+@media(max-width: 500px) {
+    .modal-content {
+        width: 100%;
+    }
+}

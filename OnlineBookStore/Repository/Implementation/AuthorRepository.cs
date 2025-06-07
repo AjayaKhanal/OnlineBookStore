@@ -24,7 +24,7 @@ namespace OnlineBookStore.Repository.Implementation
 
             command.Parameters.AddWithValue("@ACTION", "SELECTALL");
 
-            var (messageParam, codeParam) = AddCommonParameters(command);
+            var (messageParam, codeParam) = _repository.AddCommonParameters(command);
 
             await connection.OpenAsync();
             var reader = await command.ExecuteReaderAsync();
@@ -45,7 +45,7 @@ namespace OnlineBookStore.Repository.Implementation
             command.Parameters.AddWithValue("@ACTION", "SELECT");
             command.Parameters.AddWithValue("@AUTHORID", id);
 
-            var (messageParam, codeParam) = AddCommonParameters(command);
+            var (messageParam, codeParam) = _repository.AddCommonParameters(command);
 
             await connection.OpenAsync();
             var reader = await command.ExecuteReaderAsync();
@@ -67,7 +67,7 @@ namespace OnlineBookStore.Repository.Implementation
             command.Parameters.AddWithValue("@AUTHORID", authorItem.AuthorId);
             command.Parameters.AddWithValue("@AUTHORNAME", authorItem.AuthorName);
 
-            var (messageParam, codeParam) = AddCommonParameters(command);
+            var (messageParam, codeParam) = _repository.AddCommonParameters(command);
 
             await connection.OpenAsync();
             await command.ExecuteNonQueryAsync();
@@ -87,7 +87,7 @@ namespace OnlineBookStore.Repository.Implementation
             command.Parameters.AddWithValue("@AUTHORID", authorItem.AuthorId);
             command.Parameters.AddWithValue("@AUTHORNAME", authorItem.AuthorName);
 
-            var (messageParam, codeParam) = AddCommonParameters(command);
+            var (messageParam, codeParam) = _repository.AddCommonParameters(command);
 
             await connection.OpenAsync();
             await command.ExecuteNonQueryAsync();
@@ -106,7 +106,7 @@ namespace OnlineBookStore.Repository.Implementation
             command.Parameters.AddWithValue("@ACTION", "DELETE");
             command.Parameters.AddWithValue("@AUTHORID", id);
 
-            var (messageParam, codeParam) = AddCommonParameters(command);
+            var (messageParam, codeParam) = _repository.AddCommonParameters(command);
 
             await connection.OpenAsync();
             await command.ExecuteNonQueryAsync();
@@ -114,22 +114,7 @@ namespace OnlineBookStore.Repository.Implementation
             return (messageParam.Value.ToString(), (int)codeParam.Value);
         }
 
-        private (SqlParameter MessageParam, SqlParameter CodeParam) AddCommonParameters(SqlCommand command)
-        {
-            var messageParam = new SqlParameter("@MESSAGE", SqlDbType.VarChar, 100)
-            {
-                Direction = ParameterDirection.Output
-            };
-            var codeParam = new SqlParameter("@CODE", SqlDbType.Int)
-            {
-                Direction = ParameterDirection.Output
-            };
-
-            command.Parameters.Add(messageParam);
-            command.Parameters.Add(codeParam);
-
-            return (messageParam, codeParam);
-        }
+        
 
     }
 }

@@ -1,4 +1,235 @@
 ﻿@page
 @model OnlineBookStore.Pages.Permission.PermissionModel
 @{
+	ViewData["DeleteTitle"] = "Permission";
+}
+
+<link rel="stylesheet" type="text/css" href="~/css/Permission/permission.css" />
+<script src="~/js/modal.js"></script>
+<script src="~/js/confirmDelete.js"></script>
+
+<div class="permission-container page-container">
+	<div class="title page-title">
+		<h2>Permission</h2>
+
+		<div class="mid">
+			<div></div>
+			<input type="text" id="searchInput" placeholder="Search by name..." class="form-control" />
+		</div>
+
+		<div class="add-permission">
+			<button type="submit" asp-page-handler="Create" class="btn-outline-primary open-modal">Add Permission</button>
+		</div>
+	</div>
+
+	<div class="permission-table">
+		<table class="table">
+			<thead>
+				<tr>
+					<th hidden>PermissionId</th>
+					<th>Name</th>
+					<th>Module</th>
+					<th>P_Action</th>
+					<th>Resource</th>
+					<th>Is Active</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				@if (Model.Permissions != null && Model.Permissions.Any())
+				{
+					@foreach (var permission in Model.Permissions)
+					{
+						<tr>
+							<td hidden class="permissionId" name="id">@permission.PermissionId</td>
+							<td>@permission.Name</td>
+							<td>@permission.Module</td>
+							<td>@permission.Action</td>
+							<td>@permission.Resource</td>
+							<td>@permission.IsActive</td>
+							<td>
+								<button type="button" asp-page-handler="Edit" class="btn btn-secondary edit-btn"
+										data-id="@permission.PermissionId"
+										data-name="@permission.Name">
+									Edit
+								</button>
+								<button type="button" asp-page-handler="Delete" class="btn btn-danger del-butn open-delete-modal"
+										data-id="@permission.PermissionId"
+										data-name="@permission.Name">
+									Delete
+								</button>
+							</td>
+						</tr>
+					}
+				}
+				else
+				{
+					<tr class="empty">
+						<td colspan="2">No Permissions found</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div id="modal" class="modal" draggable="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+	<div class="modal-content">
+		<form method="post" class="new-form">
+			@Html.AntiForgeryToken()
+			<!-- Include Header-->
+			@await Html.PartialAsync("../Shared/_ModalHeader.cshtml", "Add Permission")
+
+			<!-- Modal Body (Input Fields) -->
+			<div class="modal-body">
+
+				<div class="input-group">
+					<label for="name">Name</label>
+					<input type="text" asp-for="Permission.Name" id="name" class="input-field" placeholder="Enter permission name" required />
+				</div>
+				<div class="input-group">
+					<label for="module">Module</label>
+					<input type="text" asp-for="Permission.Module" id="module" class="input-field" placeholder="Enter module" required />
+				</div>
+				<div class="input-group">
+					<label for="action">Action</label>
+					<input type="text" asp-for="Permission.Action" id="action" class="input-field" placeholder="Enter action" required />
+				</div>
+				<div class="input-group">
+					<label for="resource">Resource</label>
+					<input type="text" asp-for="Permission.Resource" id="resource" class="input-field" placeholder="Enter resource" required />
+				</div>
+				<div class="input-group p-group">
+					<label for="isActive">IsActive</label>
+					<input type="checkbox" asp-for="Permission.IsActive" id="isActive" class="input-field" required />
+				</div>
+			</div>
+
+			<!-- Include Footer -->
+			@await Html.PartialAsync("../Shared/_ModalFooter.cshtml", "Save")
+		</form>
+	</div>
+</div>
+
+
+<div id="e-modal" class="modal" draggable="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+	<div class="modal-content">
+		<form method="post" asp-page-handler="Edit" class="edit-form">
+			@Html.AntiForgeryToken()
+			<!-- Include Header-->
+			@await Html.PartialAsync("../Shared/_ModalHeader.cshtml", "Edit Permission")
+
+			<!-- Modal Body (Input Fields) -->
+			<div class="modal-body">
+
+				<div class="input-group">
+					<label for="permissionName">Permission Name</label>
+					<input type="text" name="Permission.Name" class="input-field permissionName" placeholder="Enter permission name" required />
+					<input type="hidden" name="id" class="permissionId" id="permissionId" />
+				</div>
+				<div class="input-group">
+					<label for="module">Module</label>
+					<input type="text" asp-for="Permission.Module" class="input-field module" placeholder="Enter module" required />
+				</div>
+				<div class="input-group">
+					<label for="action">Action</label>
+					<input type="text" asp-for="Permission.Action" class="input-field action" placeholder="Enter action" required />
+				</div>
+				<div class="input-group">
+					<label for="resource">Resource</label>
+					<input type="text" asp-for="Permission.Resource" class="input-field resource" placeholder="Enter resource" required />
+				</div>
+				<div class="input-group p-group">
+					<label for="p_active">IsActive</label>
+					<input type="checkbox" name="Permission.IsActive" id="p_active" class="input-field isActive" value="true"/>
+				</div>
+			</div>
+
+			<!-- Include Footer -->
+			@await Html.PartialAsync("../Shared/_ModalFooter.cshtml", "Update")
+		</form>
+	</div>
+</div>
+
+@await Html.PartialAsync("../Shared/_ConfirmDelete.cshtml")
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+	<script>
+		var searchInput = document.getElementById("searchInput");
+
+		searchInput.addEventListener("keyup", function () {
+			const filter = this.value.toLowerCase();
+			document.querySelectorAll(".permission-table tbody tr").forEach(row => {
+				const name = row.querySelectorAll("td")[1].textContent.toLowerCase();
+				row.style.display = name.includes(filter) ? "" : "none";
+			});
+		});
+
+	</script>
+
+	<script>
+		$(document).ready(function () {
+
+			var fun = function(){
+				$('#e-modal').css("display", "none");
+			};
+
+			$(".edit-btn").on("click", function () {
+				const permissionId = $(this).data("id");
+
+				$('.close, .btn-cancel').on("click", fun);
+
+				$.ajax({
+					url: 'Permission?handler=Edit',
+					type: 'GET',
+					data: { id: permissionId },
+					dataType: 'json',
+					success: function (dataa) {
+						if (dataa.code === "300") {
+							alert(dataa.message || "Permission not found.");
+							return;
+						}
+
+						// Set values
+						$("#permissionId").val(dataa.permissionId);
+						$(".permissionName").val(dataa.name);
+						$(".module").val(dataa.module);
+						$(".action").val(dataa.action);
+						$(".resource").val(dataa.resource);
+						// Set checkbox checked state based on dataa.isActive
+						$(".isActive").prop("checked", dataa.isActive === true);
+
+						// Set or create hidden input for PermissionId
+						let hiddenInput = $("#permissionId");
+						if (hiddenInput.length === 0) {
+							hiddenInput = $("<input>", {
+								type: "hidden",
+								id: "permissionId",
+								name: "Permission.PermissionId"
+							});
+							$(".edit-form").append(hiddenInput);
+						}
+						hiddenInput.val(dataa.permissionId);
+
+						// Set form handler
+						$(".edit-form").attr("asp-page-handler", "Edit");
+
+						// Show modal
+						$("#e-modal").css("display", "flex");
+						$(".permissionName").focus();
+					},
+					error: function (ex) {
+						console.log('error'+ex.message);
+						alert("An error occurred while fetching permission data.");
+					}
+				});
+			});
+
+		});
+	</script>
+
 }

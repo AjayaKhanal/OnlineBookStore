@@ -31,9 +31,11 @@ namespace OnlineBookStore.Pages.User
     {
         public int UserId { get; set; }
         [BindProperty]
-        public string FullName { get; set; }
+        public string? FullName { get; set; }
         [BindProperty]
         public string Email { get; set; }
+        [BindProperty]
+        public string? Mobile { get; set; }
 
         [BindProperty]
         public string Password { get; set; }
